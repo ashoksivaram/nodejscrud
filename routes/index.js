@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const app = express();
-const port = 3000;
+const port = 3100;
 
 let crops = [];
 app.use(express.json());
@@ -41,7 +41,7 @@ app.put('/crops/:id', (req, res) => {
 
   const { name, description } = req.body;
   crop.name = name || crop.name;
-  crop.descriptom = descriptom || crop.descriptom;
+  crop.description = description || crop.descripton;
 
   res.send(crop);
 });
