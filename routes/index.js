@@ -1,58 +1,59 @@
 var express = require('express');
 var router = express.Router();
 const app = express();
-const port = 3100;
+const port = 3000;
 
-let books = [];
+let crops = [];
 app.use(express.json());
 
-app.post('/books', (req, res) => {
-  const { title, author } = req.body;
-  if (!title || !author) {
-    return res.status(400).send('Missing title or author');
+// Add a new Crop
+app.post('/crops', (req, res) => {
+  const { name, description } = req.body;
+  if (!name || !description) {
+    return res.status(400).send('Missing name or description');
   }
 
-  const newBook = { id: books.length + 1, title, author };
-  books.push(newBook);
-  res.status(201).send(newBook);
+  const newCrop = { id: crops.length + 1, name, description };
+  crops.push(newCrop);
+  res.status(201).send(crops);
 });
 
-// Get All Books
-app.get('/books', (req, res) => {
-  res.json(books);
+// Get All Crops
+app.get('/crops', (req, res) => {
+  res.json(crops);
 });
 
-// Get a Single Book
-app.get('/books/:id', (req, res) => {
-  const book = books.find(b => b.id === parseInt(req.params.id));
-  if (!book) {
-    return res.status(404).send('Book not found');
+// Get a Single Crop details
+app.get('/crops/:id', (req, res) => {
+  const crop = crops.find(c => c.id === parseInt(req.params.id));
+  if (!crop) {
+    return res.status(404).send('Crop not found');
   }
-  res.json(book);
+  res.json(crop);
 });
 
-// Update a Book
-app.put('/books/:id', (req, res) => {
-  const book = books.find(b => b.id === parseInt(req.params.id));
-  if (!book) {
-    return res.status(404).send('Book not found');
-  }
-
-  const { title, author } = req.body;
-  book.title = title || book.title;
-  book.author = author || book.author;
-
-  res.send(book);
-});
-
-// Delete a Book
-app.delete('/books/:id', (req, res) => {
-  const bookIndex = books.findIndex(b => b.id === parseInt(req.params.id));
-  if (bookIndex === -1) {
-    return res.status(404).send('Book not found');
+// Update a Crop detail
+app.put('/crops/:id', (req, res) => {
+  const crop = crops.find(c => c.id === parseInt(req.params.id));
+  if (!crop) {
+    return res.status(404).send('Crop not found');
   }
 
-  books.splice(bookIndex, 1);
+  const { name, description } = req.body;
+  crop.name = name || crop.name;
+  crop.descriptom = descriptom || crop.descriptom;
+
+  res.send(crop);
+});
+
+// Delete a Crop
+app.delete('/crops/:id', (req, res) => {
+  const cropIndex = crops.findIndex(c => c.id === parseInt(req.params.id));
+  if (cropIndex === -1) {
+    return res.status(404).send('Crop not found');
+  }
+
+  crops.splice(cropIndex, 1);
   res.status(204).send();
 });
 
